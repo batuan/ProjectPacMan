@@ -2,19 +2,22 @@ package Entity;
 
 import java.awt.Image;
 import java.awt.Point;
-import java.net.URL;
 
 import javax.swing.*;
 
-import PhysicsEngine.Movement.Movement;
 import PhysicsEngine.Movement.MovementType;
 import Render.GameBoard;
 
-public class Pacman extends Entity implements Movement {
+public class Pacman extends MovableEntity {
 	private Image normalImage, upImage, downImage, leftImage, rightImage;
 	private Timer timer;
-	private int speed = 5;
-	private MovementType direction = MovementType.UP;
+	private int speed = 1;
+	private Point startPoint;
+
+	public Point getStartPoint() {
+		return startPoint;
+	}
+
 	public int getSpeed() {
 		return speed;
 	}
@@ -64,6 +67,7 @@ public class Pacman extends Entity implements Movement {
 	}
 
 	public Pacman(Point position, GameBoard board) {
+		this.startPoint = position;
 		this.setPosition(position);
 		this.setPixelPosition(new Point(10+position.x*28, 10+position.y*28));
 		this.setGameBoard(board);
@@ -93,7 +97,7 @@ public class Pacman extends Entity implements Movement {
 //		pacman.setNewPosition(position);
 //		this.getGraphics().drawImage(pacman.getNormalImage(), position.y, position.x, null);
 //		this.repaint();
-		switch (direction) {
+		switch (this.getDirection()) {
 			case UP:
 				this.getPixelPosition().y -= speed;
 				this.setImage(upImage);
@@ -129,26 +133,26 @@ public class Pacman extends Entity implements Movement {
 
 	@Override
 	public void goUp() {
-		direction = MovementType.UP;
+		this.setDirection(MovementType.UP);
 	}
 
 	@Override
 	public void goDown() {
-		direction = MovementType.DOWN;
+		this.setDirection(MovementType.DOWN);
 	}
 
 	@Override
 	public void goLeft() {
-		direction = MovementType.LEFT;
+		this.setDirection(MovementType.LEFT);
 	}
 
 	@Override
 	public void goRight() {
-		direction = MovementType.RIGHT;
+		this.setDirection(MovementType.RIGHT);
 	}
 
 	@Override
 	public void stop() {
-
+		this.setDirection(MovementType.STOP);
 	}
 }

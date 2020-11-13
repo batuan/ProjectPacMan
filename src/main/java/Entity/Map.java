@@ -82,6 +82,7 @@ public class Map {
         coinPositions = new ArrayList<>();
         puCoinPositions = new ArrayList<>();
         ghostsData = new ArrayList<>();
+        wallPositions = new ArrayList<>();
         try {
             File file = new File(this.getClass().getClassLoader().getResource(relPath).toURI());
             reader = new BufferedReader(new FileReader(file));
@@ -114,6 +115,7 @@ public class Map {
                     }
                     if(c == 'Y'){
                         mapGraphic[i][j] = 26;
+                        this.getWallPositions().add(new Point(j, i));
                     }
                     if(c == '_'){
                         mapGraphic[i][j] = 0;
@@ -124,7 +126,7 @@ public class Map {
                     }
                     if(c == 'O'){
                         mapGraphic[i][j] = 0;
-                        this.getCoinPositions().add(new Point(j, i));
+                        this.getPuCoinPositions().add(new Point(j, i));
                     }
                     if(c == 'F'){
                         mapGraphic[i][j] = 0;

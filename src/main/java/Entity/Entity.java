@@ -8,7 +8,7 @@ import java.net.URL;
 public class Entity {
     private Point position;
     private Point pixelPosition;
-    private int size;
+    private static int size = 28;
     private Image image;
     private String path;
     private String type;
@@ -85,5 +85,11 @@ public class Entity {
     public URL getURLPath(String subpath) {
         URL url = this.getClass().getClassLoader().getResource(subpath);
         return url;
+    }
+
+    public Rectangle getRectangle() {
+        int x = this.getPixelPosition().x;
+        int y = this.getPixelPosition().y;
+        return new Rectangle(x, y, getSize(), getSize());
     }
 }

@@ -4,5 +4,6 @@ public enum MovementType {
     LEFT,
     RIGHT,
     UP,
-    DOWN
+    DOWN,
+    STOP
 }

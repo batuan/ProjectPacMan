@@ -29,7 +29,7 @@ public class Ghost extends Entity{
 	
 	Ghost(int x, int y, int color){
 		this.setPosition(new Point(x, y));
-		this.setPixelPosition(new Point(28*x, 28*y));
+		this.setPixelPosition(new Point(10+getSize()*x, 10+getSize()*y));
 		this.color = color;
 		switch (color){
 			case 1:{
