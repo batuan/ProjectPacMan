@@ -2,9 +2,11 @@ package Entity;
 
 import java.awt.Image;
 import java.awt.Point;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
+import PhysicsEngine.CollisionEngine.CollisionInMap;
 import PhysicsEngine.Movement.MovementType;
 import Render.GameBoard;
 
@@ -13,6 +15,21 @@ public class Pacman extends MovableEntity {
 	private Timer timer;
 	private int speed = 1;
 	private Point startPoint;
+	public MovementType nextDirection;
+
+	private int life = 3;
+
+	public int getLife() {
+		return life;
+	}
+
+	public void setLife(int life) {
+		this.life = life;
+	}
+
+	public Pacman() {
+
+	}
 
 	public Point getStartPoint() {
 		return startPoint;
@@ -67,6 +84,7 @@ public class Pacman extends MovableEntity {
 	}
 
 	public Pacman(Point position, GameBoard board) {
+		nextDirection = MovementType.STOP;
 		this.startPoint = position;
 		this.setPosition(position);
 		this.setPixelPosition(new Point(10+position.x*28, 10+position.y*28));
@@ -78,6 +96,23 @@ public class Pacman extends MovableEntity {
 		this.rightImage = new ImageIcon(getURLPath("Image/Pacman/right/right.gif")).getImage();
 		this.leftImage = new ImageIcon(getURLPath("Image/Pacman/left/left.gif")).getImage();
 		this.setImage(normalImage);
+	}
+
+	public void verifyNextDirection(ArrayList<Wall> walls){
+		if(nextDirection==MovementType.STOP) return;
+		Pacman newPacman = new Pacman();
+		newPacman.setDirection(this.nextDirection);
+		newPacman.setPixelPosition(this.getPixelPosition());
+		CollisionInMap collision = new CollisionInMap();
+		for (Wall wall : walls) {
+			collision.collisionWithWall(newPacman, wall);
+		}
+		if (newPacman.getDirection() != MovementType.STOP) calculateNextDirection();
+	}
+
+	private void calculateNextDirection() {
+		this.setDirection(nextDirection);
+		nextDirection = MovementType.STOP;
 	}
 
 	public void setNewPosition(Point position) {
@@ -131,24 +166,33 @@ public class Pacman extends MovableEntity {
 		return "Pacman_Movement";
 	}
 
+	/**
+	 * We have a next direction to get next move of pacman. If next Direction is Stop, Pacman will stop
+	 * else Pacman will continue the direction
+	 */
+
 	@Override
 	public void goUp() {
-		this.setDirection(MovementType.UP);
+		this.nextDirection = MovementType.UP;
+		//this.setDirection(MovementType.UP);
 	}
 
 	@Override
 	public void goDown() {
-		this.setDirection(MovementType.DOWN);
+		this.nextDirection = MovementType.DOWN;
+		//this.setDirection(MovementType.DOWN);
 	}
 
 	@Override
 	public void goLeft() {
-		this.setDirection(MovementType.LEFT);
+		this.nextDirection = MovementType.LEFT;
+		//this.setDirection(MovementType.LEFT);
 	}
 
 	@Override
 	public void goRight() {
-		this.setDirection(MovementType.RIGHT);
+		this.nextDirection = MovementType.RIGHT;
+		//this.setDirection(MovementType.RIGHT);
 	}
 
 	@Override

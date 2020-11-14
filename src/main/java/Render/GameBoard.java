@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.*;
-import java.awt.image.Kernel;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
@@ -15,7 +14,6 @@ import javax.swing.*;
 
 import App.CoreKernel;
 import Entity.*;
-import PhysicsEngine.CollisionEngine.CollisionInMap;
 
 //TODO: Render Entity with parallel programming to enhance performance.
 //TODO: Reformat Game board with kernel.
@@ -32,7 +30,7 @@ public class GameBoard extends JPanel implements KeyListener {
     ArrayList<Coin> pufoods;
     ArrayList<Ghost> ghosts;
     ArrayList<Wall> walls;
-    boolean drawScore = false;
+    boolean drawScore = true;
     boolean clearScore = false;
     int scoreToAdd = 0;
     int score;
@@ -69,7 +67,7 @@ public class GameBoard extends JPanel implements KeyListener {
         coreKernelTimer.start();
     }
 	void initTimer(){
-        coreKernelTimer = new Timer(50, new ActionListener() {
+        coreKernelTimer = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 coreKernel.takeAnimation();
@@ -80,6 +78,8 @@ public class GameBoard extends JPanel implements KeyListener {
     void initKernel() {
         coreKernel.pacman = this.pacman;
         coreKernel.walls = this.walls;
+        coreKernel.coins = this.foods;
+        coreKernel.coreGraphic = this.getGraphics();
     }
 
 	void initEntity(){
@@ -185,25 +185,10 @@ public class GameBoard extends JPanel implements KeyListener {
             int yGhost = gh.getPixelPosition().y;
             g.drawImage(ghostImage, xGhost, yGhost, null);
         }
-        if(clearScore){
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            drawScore = false;
-            clearScore =false;
-        }
 
         if(drawScore) {
             //System.out.println("must draw score !");
-            g.setFont(new Font("Arial",Font.BOLD, 15));
-            g.setColor(Color.yellow);
-            Integer s = scoreToAdd*100;
-            g.drawString(s.toString(), pacman.getPixelPosition().x + 13, pacman.getPixelPosition().y + 50);
-            //drawScore = false;
-            score += s;
-            scoreboard.setText("    Score : "+score);
+            scoreboard.setText("    Score : " + coreKernel.score + "         Life:  " + pacman.getLife());
             clearScore = true;
         }
     }
@@ -219,19 +204,19 @@ public class GameBoard extends JPanel implements KeyListener {
         if (key == KeyEvent.VK_LEFT) {
             System.out.println("left");
             this.pacman.goLeft();
-            this.pacman.move();
+            //this.pacman.move();
         } else if (key == KeyEvent.VK_RIGHT) {
             System.out.println("right");
             this.pacman.goRight();
-            this.pacman.move();
+            //this.pacman.move();
         } else if (key == KeyEvent.VK_UP) {
             System.out.println("up");
             this.pacman.goUp();
-            this.pacman.move();
+            //this.pacman.move();
         } else if (key == KeyEvent.VK_DOWN) {
             System.out.println("down");
             this.pacman.goDown();
-            this.pacman.move();
+            //this.pacman.move();
         }
     }
 

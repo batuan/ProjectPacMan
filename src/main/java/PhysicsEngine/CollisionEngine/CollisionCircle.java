@@ -28,6 +28,6 @@ public class CollisionCircle implements CollisionEngine{
         double centerYE2 = e2.getPixelPosition().y + (double)e1.getSize() / 2;
         double maxsize = (double) e1.getSize()/2 + (double) e2.getSize()/2;
         double distance = (centerXE1-centerXE2)*(centerXE1-centerXE2) + (centerYE1-centerYE2)*(centerYE1-centerYE2);
-        return (distance<=maxsize*maxsize);
+        return (distance<maxsize*maxsize);
     }
 }

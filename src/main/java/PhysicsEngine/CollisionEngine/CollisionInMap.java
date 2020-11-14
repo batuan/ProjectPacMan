@@ -23,8 +23,10 @@ public class CollisionInMap implements CollisionMap{
         int movableSize = movableEntity.getSize();
         switch (direction){
             case UP: {
-                int check = (wallY-movableY);
-                if(check>=0 && check<=wallSize && wallX==movableX) {
+                //System.out.println("in up");
+                int checkY = (movableY-wallY);
+                int checkX = Math.abs(movableX-wallX);
+                if(checkY>=0 && checkY<=wallSize && checkX<wallSize) {
                     System.out.println("Up collision with map");
                     System.out.println("Pacman: " + movableX + " " + movableY);
                     System.out.println("Wall: " + wallX + " " + wallY);
@@ -34,8 +36,10 @@ public class CollisionInMap implements CollisionMap{
             }
 
             case DOWN: {
-                int check = (movableY-wallY);
-                if(check >= 0 && check<=wallSize && wallX==movableX) {
+                //System.out.println("in down");
+                int checkY = (wallY-movableY);
+                int checkX = Math.abs(movableX-wallX);
+                if(checkY >= 0 && checkY<=wallSize && checkX<wallSize) {
                     movableEntity.stop();
                     System.out.println("Pacman: " + movableX + " " + movableY);
                     System.out.println("Wall: " + wallX + " " + wallY);
@@ -44,8 +48,10 @@ public class CollisionInMap implements CollisionMap{
                 break;
             }
             case LEFT: {
-                int check = (movableX-wallX);
-                if(check>=0&&check<=wallSize) {
+               //System.out.println("in left");
+                int checkX = (movableX-wallX);
+                int checkY = Math.abs(movableY - wallY);
+                if(checkX>=0&&checkX<=wallSize&&(checkY<wallSize)) {
                     System.out.println("Pacman: " + movableX + " " + movableY + " " + movableSize);
                     System.out.println("Wall: " + wallX + " " + wallY + " " + wallSize);
                     System.out.println("Left collision with map");
@@ -55,8 +61,10 @@ public class CollisionInMap implements CollisionMap{
             }
 
             case RIGHT:{
-                int check = (wallX - movableX);
-                if(check >= 0 && check <=wallSize && wallY==movableY) {
+                //System.out.println("in right");
+                int checkX = (wallX - movableX);
+                int checkY = Math.abs(wallY-movableY);
+                if(checkX >= 0 && checkX <=wallSize && checkY<wallSize) {
                     movableEntity.stop();
                     System.out.println("Right collision with map");
                     System.out.println("Pacman: " + movableX + " " + movableY);

@@ -33,8 +33,6 @@ public class Graphics extends JFrame {
         getscore.setBorder(null);
         getscore.removeFocusListener(null);
         score.add(getscore);
-        getscore.setText("Score: " + 0 + " Vies: " + 3);
-
         game.pack();
         game.setVisible(true);
     }
