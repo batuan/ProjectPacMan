@@ -1,8 +1,7 @@
 package Entity;
 import java.awt.Point;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Map {
@@ -61,11 +60,6 @@ public class Map {
         this.wallPositions = wallPositions;
     }
 
-    public static void main(String[] args) {
-		Map map =  new Map();
-		map.getMapFromResource("resources/mapdata/map.txt");
-	}
-
 	public int[][] getMapGraphic() {
 		return mapGraphic;
 	}
@@ -76,7 +70,7 @@ public class Map {
 	}
 	
 	public void getMapFromResource(String relPath){
-        System.out.println("path: "+ relPath);
+        System.out.println("path: "+ this.getClass().getClassLoader().getResource(relPath).getPath());
         BufferedReader reader;
         mapGraphic = new int[29][27];
         coinPositions = new ArrayList<>();
@@ -84,8 +78,10 @@ public class Map {
         ghostsData = new ArrayList<>();
         wallPositions = new ArrayList<>();
         try {
-            File file = new File(this.getClass().getClassLoader().getResource(relPath).toURI());
-            reader = new BufferedReader(new FileReader(file));
+            InputStream input = this.getClass().getClassLoader().getResourceAsStream(relPath);
+            InputStreamReader streamReader =
+                    new InputStreamReader(input, StandardCharsets.UTF_8);
+            reader = new BufferedReader(streamReader);
             String line = reader.readLine();
             int i = 0;
             int j = 0;
