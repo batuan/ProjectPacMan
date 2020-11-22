@@ -1,7 +1,5 @@
 package PhysicsEngine.CollisionEngine;
-
 import Entity.Entity;
-
 import java.awt.*;
 
 public class CollisionRectangle implements CollisionEngine{
@@ -10,7 +8,6 @@ public class CollisionRectangle implements CollisionEngine{
     public boolean isOutOfMaze(Entity e1, int mazeHeight, int mazeWidth) {
         return false;
     }
-
     // https://stackoverflow.com/questions/31022269/collision-detection-between-two-rectangles-in-java
     @Override
     public boolean isCollision(Entity e1, Entity e2) {

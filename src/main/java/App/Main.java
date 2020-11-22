@@ -1,5 +1,4 @@
 package App;
-import java.io.IOException;
 
 import Render.MazeWindow;
 

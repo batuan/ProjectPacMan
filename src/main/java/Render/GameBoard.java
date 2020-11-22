@@ -13,6 +13,7 @@ import java.util.Random;
 import javax.swing.*;
 
 import App.CoreKernel;
+import AudioPlayer.GameAudioPlayer;
 import Entity.*;
 
 //TODO: Render Entity with parallel programming to enhance performance.
@@ -32,21 +33,21 @@ public class GameBoard extends JPanel implements KeyListener {
     ArrayList<Wall> walls;
     boolean drawScore = true;
     boolean clearScore = false;
-    int scoreToAdd = 0;
-    int score;
     JLabel scoreboard;
-    boolean mustReactivateSiren = false;
     public Point ghostBase;
     public int mx;
     public int my;
-    private MazeWindow parent;
-    private Map md;
+    private final MazeWindow parent;
+    private final Map md;
+    private GameAudioPlayer themeSound;
+
     @Override
     public MazeWindow getParent() {
         return parent;
     }
     
     public GameBoard(JLabel scoreboard, Map map, MazeWindow pw) {
+        themeSound = new GameAudioPlayer("Sounds/IntroTheme.wav");
         coreKernel = new CoreKernel();
         this.md = map;
     	this.scoreboard = scoreboard;
@@ -65,6 +66,7 @@ public class GameBoard extends JPanel implements KeyListener {
 
 	void startGame() {
         coreKernelTimer.start();
+        themeSound.loop();
     }
 	void initTimer(){
         coreKernelTimer = new Timer(10, new ActionListener() {

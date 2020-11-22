@@ -1,5 +1,6 @@
 package App;
 
+import AudioPlayer.GameAudioPlayer;
 import Entity.Coin;
 import Entity.Ghost;
 import Entity.Pacman;
@@ -11,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 enum GameState{PAUSE, VICTORY, GAMEOVER, PLAY}
@@ -26,6 +26,7 @@ public class CoreKernel {
     CollisionCircle collisionCircle = new CollisionCircle();
     public Graphics coreGraphic;
     public int score = 0;
+    final GameAudioPlayer coinEat = new GameAudioPlayer("Sounds/coin_eat.wav");
     public CoreKernel(){
 
     }
@@ -38,6 +39,7 @@ public class CoreKernel {
         pacman.move();
         for (Coin coin:coins) {
             if(collisionCircle.isCollision(pacman, coin)) {
+                coinEat.start();
                 coins.remove(coin);
                 score += 10;
                 break;
