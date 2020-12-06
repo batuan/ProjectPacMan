@@ -65,6 +65,11 @@ public class GameBoard extends JPanel implements KeyListener {
 	}
 
 	void startGame() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         coreKernelTimer.start();
         themeSound.loop();
     }
@@ -75,13 +80,17 @@ public class GameBoard extends JPanel implements KeyListener {
                 coreKernel.takeAnimation();
             }
         });
+        coreKernelTimer.stop();
     }
 
     void initKernel() {
         coreKernel.pacman = this.pacman;
         coreKernel.walls = this.walls;
         coreKernel.coins = this.foods;
+        coreKernel.ghosts = this.ghosts;
         coreKernel.coreGraphic = this.getGraphics();
+        coreKernel.wallPoint = this.md.getWallPositions();
+        coreKernel.setAIForGhost();
     }
 
 	void initEntity(){

@@ -15,7 +15,7 @@ public class GameAudioPlayer implements AudioPlayer {
     @Override
     public void start() {
         this.audioClip.setFramePosition(0);
-        System.out.println("sound start " + this.audioClip.getFrameLength());
+        //System.out.println("sound start " + this.audioClip.getFrameLength());
         this.audioClip.start();
     }
 

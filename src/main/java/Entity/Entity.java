@@ -14,12 +14,15 @@ public class Entity {
     private String type;
     private String systemPath = System.getProperty("user.dir");
     private GameBoard gameBoard;
-    public void draw(Canvas canvas) {
-
-    }
 
     public Point getPosition() {
         return position;
+    }
+
+    public Point getCurrentPosition(){
+        System.out.println(getPixelPosition());
+        if((this.pixelPosition.x-10)%size!=0||(this.pixelPosition.y-10)%size!=0) return null;
+        else return new Point((this.pixelPosition.x-10)/size, (this.pixelPosition.y-10)/size);
     }
 
     public void setPosition(Point position) {
