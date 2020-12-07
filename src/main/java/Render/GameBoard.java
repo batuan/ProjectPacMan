@@ -80,6 +80,7 @@ public class GameBoard extends JPanel implements KeyListener {
     }
 
     void initKernel() {
+        pacman.setSpeed(2);
         coreKernel.pacman = this.pacman;
         coreKernel.walls = this.walls;
         coreKernel.coins = this.foods;
