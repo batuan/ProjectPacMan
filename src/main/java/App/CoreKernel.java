@@ -10,13 +10,11 @@ import Entity.Wall;
 import PhysicsEngine.CollisionEngine.CollisionCircle;
 import PhysicsEngine.CollisionEngine.CollisionInMap;
 import PhysicsEngine.CollisionEngine.CollisionRectangle;
-import PhysicsEngine.Movement.MovementType;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 enum GameState{PLAY, PAUSE, STOP, GAMEOVER, VICTORY}
 
@@ -25,6 +23,7 @@ public class CoreKernel {
     //public CopyOnWriteArrayList<Ghost> ghosts;
     public ArrayList<Ghost> ghosts;
     public ArrayList<Coin> coins;
+    public ArrayList<Coin> pufoods;
     public ArrayList<Wall> walls;
     public ArrayList<Point> wallPoint;
     public GameState gameState;
@@ -34,6 +33,7 @@ public class CoreKernel {
     public Graphics coreGraphic;
     public int score = 0;
     final GameAudioPlayer coinEat = new GameAudioPlayer("Sounds/coin_eat.wav");
+    public GameAudioPlayer themeSound = new GameAudioPlayer("Sounds/IntroTheme.wav");
     public CoreKernel(){
 
     }
@@ -41,7 +41,7 @@ public class CoreKernel {
     int i = 0;
     public void takeAnimation() {
         if(gameState==GameState.VICTORY) {
-            //victoryPush();
+            victoryPush();
         }
         for (Wall wall : walls) {
             checkCollisionInMap.collisionWithWall(pacman, wall);
@@ -53,20 +53,13 @@ public class CoreKernel {
             ghost.nextMoveCalculateByAI(this);
             ghost.move();
         }
-//        ghosts.get(0).nextMoveCalculateByAI(this);
-//        ghosts.get(0).move();
-//        if(i == 0) {
-//            ghosts.get(0).nextMoveCalculateByAI(this);
-//            i+=1;
-//        }
         for(Ghost ghost: ghosts){
             if(collisionRectangle.isCollision(pacman, ghost)){
                 ghostCatchPacman();
-                //if(f.getState() == Fantom.FantomState.NORMAL) playerCatched();
-                //if(f.getState() == Fantom.FantomState.KILLABLE) fantomCatched(f);
             }
         }
 
+        //eat coin
         for (Coin coin:coins) {
             if(collisionCircle.isCollision(pacman, coin)) {
                 coinEat.start();
@@ -78,18 +71,47 @@ public class CoreKernel {
                 gameState = GameState.VICTORY;
             }
         }
+
+        for (Coin coin: pufoods) {
+            if(collisionCircle.isCollision(pacman, coin)) {
+                coinEat.start();
+                pufoods.remove(coin);
+                score += 30;
+                break;
+            }
+        }
+
     }
 
     public void setAIForGhost(){
         //ghosts.get(0).AI = new AstarAI();
         for (int i = 0; i<ghosts.size(); i++){
-            if(i==2) ghosts.get(i).AI = new AstarAI();
+            if(i==3||i==1) ghosts.get(i).AI = new AstarAI();
             else this.ghosts.get(i).AI = new RandomMovement();
         }
     }
 
     public void ghostCatchPacman(){
         gameState = GameState.GAMEOVER;
+        themeSound.stop();
+        coinEat.stop();
+        int  result = JOptionPane.showConfirmDialog(null, "You lose, GAME OVER",
+                "Quit", JOptionPane.YES_OPTION);
+        if(result == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }
+
+    void victoryPush(){
+        themeSound.stop();
+        coinEat.stop();
+        JOptionPane.showMessageDialog(null, "You are victory");
+    }
+
+    public void reNewState(){
+        for (Ghost ghost: ghosts) {
+            ghost.getPixelPosition();
+        }
     }
 
     public int[][] getWallsPosition() {

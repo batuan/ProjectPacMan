@@ -5,13 +5,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import Entity.Map;
-import PhysicsEngine.GameKeyAdapter;
-
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.Scanner;
 
 public class MazeWindow extends JFrame {
 	public MazeWindow() {

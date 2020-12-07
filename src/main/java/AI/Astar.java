@@ -105,7 +105,6 @@ public class Astar {
         // clean
         openList.clear();
         closeList.clear();
-        // 开始搜索
         openList.add(startCell);
         moveNodes();
     }
@@ -149,24 +148,28 @@ public class Astar {
     }
 
     /**
-     * 添加所有邻结点到open表
+     * add to open
      */
     private void addNeighborNodeInOpen(Cell current)
     {
         int x = current.x;
         int y = current.y;
-        // 左
+        // LEFT
         addNeighborNodeInOpen(current, x - 1, y, DIRECT_VALUE);
-        // 上
+        // UP
         addNeighborNodeInOpen(current, x, y - 1, DIRECT_VALUE);
-        // 右
+        // RIGHT
         addNeighborNodeInOpen(current, x + 1, y, DIRECT_VALUE);
-        // 下
+        // DOWN
         addNeighborNodeInOpen(current, x, y + 1, DIRECT_VALUE);
     }
 
     /**
-     * 添加一个邻结点到open表
+     * Extend the current cell and find the cell can add to the open list
+     * @param current
+     * @param x
+     * @param y
+     * @param value
      */
     private void addNeighborNodeInOpen(Cell current, int x, int y, int value)
     {

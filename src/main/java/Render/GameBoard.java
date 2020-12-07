@@ -1,7 +1,6 @@
 package Render;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -13,7 +12,6 @@ import java.util.Random;
 import javax.swing.*;
 
 import App.CoreKernel;
-import AudioPlayer.GameAudioPlayer;
 import Entity.*;
 
 //TODO: Render Entity with parallel programming to enhance performance.
@@ -39,7 +37,6 @@ public class GameBoard extends JPanel implements KeyListener {
     public int my;
     private final MazeWindow parent;
     private final Map md;
-    private GameAudioPlayer themeSound;
 
     @Override
     public MazeWindow getParent() {
@@ -47,7 +44,6 @@ public class GameBoard extends JPanel implements KeyListener {
     }
     
     public GameBoard(JLabel scoreboard, Map map, MazeWindow pw) {
-        themeSound = new GameAudioPlayer("Sounds/IntroTheme.wav");
         coreKernel = new CoreKernel();
         this.md = map;
     	this.scoreboard = scoreboard;
@@ -71,7 +67,7 @@ public class GameBoard extends JPanel implements KeyListener {
             e.printStackTrace();
         }
         coreKernelTimer.start();
-        themeSound.loop();
+        coreKernel.themeSound.loop();
     }
 	void initTimer(){
         coreKernelTimer = new Timer(10, new ActionListener() {
@@ -87,6 +83,7 @@ public class GameBoard extends JPanel implements KeyListener {
         coreKernel.pacman = this.pacman;
         coreKernel.walls = this.walls;
         coreKernel.coins = this.foods;
+        coreKernel.pufoods = this.pufoods;
         coreKernel.ghosts = this.ghosts;
         coreKernel.coreGraphic = this.getGraphics();
         coreKernel.wallPoint = this.md.getWallPositions();

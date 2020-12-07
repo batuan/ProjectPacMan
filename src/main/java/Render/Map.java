@@ -1,4 +1,6 @@
-package Entity;
+package Render;
+import Entity.Ghost;
+
 import java.awt.Point;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
